@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crypto Strategist | Professional Portfolio</title>
+    <script>
+      // Global Safeguard for Sandbox Environments
+      (function() {
+        // Suppress specific errors that occur in sandboxed environments (like fetch/ethereum getters)
+        const SILENCED_ERRORS = [
+          'only a getter',
+          'ethereum proxy',
+          'redefine property',
+          'not configurable'
+        ];
+
+        function isSilenced(message) {
+          if (typeof message !== 'string') return false;
+          return SILENCED_ERRORS.some(err => message.toLowerCase().includes(err.toLowerCase()));
+        }
+
+        // Handle Object.defineProperty conflicts
+        const originalDefineProperty = Object.defineProperty;
+        Object.defineProperty = function(obj, prop, descriptor) {
+          try {
+            // Fix for "Invalid property descriptor. Cannot both specify accessors and a value or writable attribute"
+            if (descriptor && (descriptor.get || descriptor.set) && ('value' in descriptor || 'writable' in descriptor)) {
+              const { value, writable, ...safeDescriptor } = descriptor;
+              return originalDefineProperty(obj, prop, safeDescriptor);
+            }
+            return originalDefineProperty(obj, prop, descriptor);
+          } catch (e) {
+            if (isSilenced(e.message)) {
+              return obj;
+            }
+            throw e;
+          }
+        };
+
+        // Handle Object.defineProperties
+        const originalDefineProperties = Object.defineProperties;
+        Object.defineProperties = function(obj, props) {
+          try {
+            return originalDefineProperties(obj, props);
+          } catch (e) {
+            if (e instanceof TypeError) {
+              Object.keys(props).forEach(prop => {
+                try {
+                  Object.defineProperty(obj, prop, props[prop]);
+                } catch (innerError) {
+                  // Ignore failures in multi-define
+                }
+              });
+              return obj;
+            }
+            throw e;
+          }
+        };
+
+        // Suppress direct assignment errors globally
+        const originalError = window.onerror;
+        window.onerror = function(message, source, lineno, colno, error) {
+          if (isSilenced(message)) {
+            return true; // Prevents the error from bubbling up
+          }
+          if (originalError) return originalError.apply(this, arguments);
+        };
+
+        window.addEventListener('unhandledrejection', function(event) {
+          if (event.reason && isSilenced(event.reason.message)) {
+            event.preventDefault();
+          }
+        }, true);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
