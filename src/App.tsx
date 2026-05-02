@@ -1,7 +1,6 @@
 import { motion } from "motion/react";
 import { Hero } from "./components/Hero";
 import { LogoMarquee } from "./components/LogoMarquee";
-import { ChatBot } from "./components/ChatBot";
 import { BackgroundEffect } from "./components/BackgroundEffect";
 import { Timeline } from "./components/Timeline";
 import { Skills } from "./components/Skills";
@@ -96,8 +95,6 @@ export default function App() {
           <Contact />
         </div>
       </main>
-
-      <ChatBot />
 
       <footer className="py-12 mt-12 mb-8">
       </footer>

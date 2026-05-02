@@ -8,6 +8,7 @@ const projects = [
     achievement: "SECURED ENVIRONMENT",
     stats: "400K+ Users",
     icon: Database,
+    image: "/warden.jpg",
     size: "col-span-2 row-span-2",
     url: "https://x.com/wardenprotocol",
   },
@@ -17,6 +18,7 @@ const projects = [
     achievement: "SYSTEM ACCESS",
     stats: "Yield Strategy",
     icon: Globe,
+    image: "/hypercroc.jpg",
     size: "col-span-1 row-span-1",
     url: "https://x.com/Hypercroc_xyz",
   },
@@ -26,6 +28,7 @@ const projects = [
     achievement: "GROWTH HACK",
     stats: "Alpha Early Access",
     icon: Zap,
+    image: "/perle.jpg",
     size: "col-span-1 row-span-1",
     url: "https://x.com/PerleLabs",
   },
@@ -35,6 +38,7 @@ const projects = [
     achievement: "DATA LAYER",
     stats: "Beta Network",
     icon: Database,
+    image: "/openledger.jpg",
     size: "col-span-1 row-span-1",
     url: "https://x.com/OpenledgerHQ",
   },
@@ -44,6 +48,7 @@ const projects = [
     achievement: "AI PROTOCOL",
     stats: "Testnet Access",
     icon: Cpu,
+    image: "/newton.jpg",
     size: "col-span-1 row-span-1",
     url: "https://x.com/newton_xyz",
   },
@@ -91,7 +96,17 @@ export function ProjectBento() {
                   rel={item.url ? "noopener noreferrer" : undefined}
                   className="absolute inset-0 z-20"
                 />
-                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-20 transition-opacity">
+                <div className="absolute inset-0 z-0">
+                  <img 
+                    src={item.image} 
+                    alt={item.title} 
+                    className="w-full h-full object-cover opacity-10 group-hover:opacity-30 transition-opacity duration-700 grayscale group-hover:grayscale-0"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-crypto-black/60 group-hover:bg-crypto-black/20 transition-colors duration-700" />
+                </div>
+                
+                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
                   <item.icon size={120} strokeWidth={0.5} />
                 </div>
                 
